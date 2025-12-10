@@ -1,0 +1,267 @@
+<?php session_start(); ?>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Heart Of D' Ocean Beach Resort — Home</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&family=Pacifico&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.php">
+      <img src="images&vids/logo1.png" alt="Heart Of D' Ocean Logo">
+      </a>
+
+      <nav class="nav" id="mainNav">
+        <button class="close-menu" id="closeMenu">✕</button>
+        <a href="index.php" class="active">Home</a>
+        <a href="rooms.php">Cottages</a>
+        <a href="gallery.php">Gallery</a>
+        <a href="booking.php" class="cta">Book Now</a>
+        <button id="darkToggle" class="icon-btn" aria-label="Toggle dark mode">🌙</button>
+      </nav>
+      
+      <button id="menuBtn" class="hamburger" aria-label="Toggle menu">☰</button>
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <video class="hero-video" autoplay muted loop playsinline>
+      <source src="images&vids/home.mp4" type="video/mp4">
+      <img src="images&vids/hero-fallback.jpg" alt="Beach Resort">
+    </video>
+    
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <h1 class="hero-title">Heart Of D' Ocean</h1>
+      <p class="hero-subtitle">Escape the Ordinary, Embrace the Ocean</p>
+      <a href="booking.php" class="hero-btn">BOOK NOW</a>
+    </div>
+  </section>
+
+  <main>
+    <!-- Features Section -->
+    <section class="features-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Heart Of D' Ocean Beach Resort</h2>
+        </div>
+        
+        <div class="features">
+          <article>
+            <h3>#YourNextAdventureAwaits</h3>
+            <p>Dive into fun at Batangas' premier waterpark! From thrilling water slides for the adults to magical cascade pools for the kids, we have it all. Create unforgettable memories with our unique photo booths and make a splash all summer long!</p>
+          </article>
+          <article>
+            <h3>#EscapeToSerenity</h3>
+            <p>Let the rhythm of the waves wash your stress away. Unwind on our unique therapeutic black-fined sand beach, listen to the ocean, and feel the sun's embrace. Your perfect seaside therapy session is just a booking away.</p>
+          </article>
+          <article>
+            <h3>#FunInTheSunPerfected</h3>
+            <p>Why choose between thrill and chill? Experience the best of both worlds! Get your heart racing on our epic water slides, then let your soul relax on our serene beach. It's the ultimate summer destination where endless fun meets pure tranquility.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="featured-cottages">
+      <div class="container">
+        <div class="section-header">
+          <h2>Featured Cottages</h2>
+          <p>Experience our most popular accommodations</p>
+        </div>
+        
+        <div class="cottages-grid">
+          <!-- Cottage 1 -->
+          <div class="cottage-card">
+            <div class="cottage-image">
+              <img src="images&vids/WhiteHouse.png" alt="White House" loading="lazy">
+              <div class="cottage-price">₱30,000<span>/night</span></div>
+            </div>
+            <div class="cottage-info">
+              <h3>WHITE HOUSE</h3>
+              <p class="cottage-desc">Luxurious beachfront cottage with panoramic ocean views</p>
+              <div class="cottage-meta">
+                <span>18-25 Guests</span>
+                <span>5 Bedrooms</span>
+              </div>
+              <button class="view-details" data-cottage="WHITE HOUSE">View Details</button>
+            </div>
+          </div>
+          
+          <!-- Cottage 2 -->
+          <div class="cottage-card">
+            <div class="cottage-image">
+              <img src="images&vids/PentHouse.jpg" alt="Penthouse" loading="lazy">
+              <div class="cottage-price">₱12,800<span>/night</span></div>
+            </div>
+            <div class="cottage-info">
+              <h3>PENTHOUSE</h3>
+              <p class="cottage-desc">Exclusive accommodation with 360-degree views</p>
+              <div class="cottage-meta">
+                <span>12-15 Guests</span>
+                <span>3 Bedrooms</span>
+              </div>
+              <button class="view-details" data-cottage="PENTHOUSE">View Details</button>
+            </div>
+          </div>
+          
+          <!-- Cottage 3 -->
+          <div class="cottage-card">
+            <div class="cottage-image">
+              <img src="images&vids/Aqua.jpg" alt="Aqua Class" loading="lazy">
+              <div class="cottage-price">₱11,800<span>/night</span></div>
+            </div>
+            <div class="cottage-info">
+              <h3>AQUA CLASS</h3>
+              <p class="cottage-desc">Modern cottage with direct pool access</p>
+              <div class="cottage-meta">
+                <span>2-15 Guests</span>
+                <span>3 Bedrooms</span>
+              </div>
+              <button class="view-details" data-cottage="AQUA CLASS">View Details</button>
+            </div>
+          </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 3rem;">
+          <a href="rooms.php" class="btn">View All Cottages</a>
+        </div>
+      </div>
+    </section>
+
+    <div id="cottageModal" class="modal">
+  <div class="modal-content-home"> <span class="close-modal">×</span>
+    <div class="modal-body-home">
+      
+      <div class="modal-image-container-home">
+        <img src="" alt="" class="modal-image modal-image-home"> 
+      </div>
+
+      <div class="modal-details-home">
+        <h2 class="modal-title modal-title-home"></h2>
+        <p class="modal-description modal-description-home"></p>
+        
+        <div class="modal-info-grid-home">
+          <div class="info-item-home">
+            <i class="fas fa-users"></i>
+            <span class="modal-capacity modal-capacity-home"></span>
+          </div>
+          
+          <div class="info-item-home">
+            <i class="fas fa-tag"></i>
+            <span class="modal-price modal-price-home"></span>
+          </div>
+          
+          <div class="info-item-home">
+            <i class="fas fa-map-marker-alt"></i>
+            <span class="modal-location modal-location-home"></span>
+          </div>
+        </div>
+
+        <div class="modal-amenities-home">
+          <h3>Amenities</h3>
+          <ul class="modal-amenities-list modal-amenities-list-home"></ul>
+        </div>
+
+        <div class="modal-footer-home">
+          <p class="best-for-home">Best for: <span class="modal-bestfor modal-bestfor-home"></span></p>
+          <a href="booking.php" class="btn-book-modal-home">Book This Cottage</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <section class="gallery-preview container">
+      <div class="section-header">
+        <br>
+        <h2>Gallery</h2>
+        <p>Take a glimpse of our beautiful resort and facilities</p>
+      </div>
+      <div class="grid">
+        <!-- MANUAL PICTURES FOR HOME PAGE -->
+        <img src="images&vids/1.jpg" alt="POOL">
+        <img src="images&vids/2.jpg" alt="POOL">
+        <img src="images&vids/3.jpg" alt="POOL">
+        <img src="images&vids/5.jpg" alt="Amazing sunset">
+        <img src="images&vids/6.jpg" alt="Ocean">
+        <img src="images&vids/13.jpg" alt="Ocean">
+        <img src="images&vids/9.jpg" alt="POOL">
+        <img src="images&vids/10.jpg" alt="View">
+      </div>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a class="btn" href="gallery.php">See all photos</a>
+        <br><br>
+      </div>
+    </section>
+  </main>
+
+  <hr>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.php" class="footer-link">About Us</a></li>
+            <li><a href="contact.php" class="footer-link">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Help</h4>
+          <ul>
+            <li><a href="faq.php" class="footer-link">FAQ</a></li>
+            <li><a href="faq.php#payment" class="footer-link">Payment Options</a></li>
+            <li><a href="faq.php#cancellation" class="footer-link">Cancellation Policy</a></li>
+            <li><a href="faq.php#terms" class="footer-link">Terms & Conditions</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Reach Us</h4>
+          <div class="social-links">
+            <a href="https://www.facebook.com/messages/t/233219370026088" target="_blank">
+              <i class="fab fa-facebook-messenger"></i>
+            </a>
+            <a href="https://www.facebook.com/Heartofdoceanbeachresort/#" target="_blank">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="mailto:heartofdocean2005@yahoo.com">
+              <i class="fas fa-envelope"></i>
+            </a>
+            <a href="https://maps.app.goo.gl/q67iwWwZYtNH51rN8" target="_blank">
+              <i class="fas fa-location-dot"></i>
+            </a>
+          </div>
+          
+          <!-- Contact Info -->
+          <div class="contact-info">
+            <p>📍 Nonong Casto, Lemery, Philippines</p>
+            <p>📞 0917 528 3832</p>
+            <p>⏰ Open 24/7</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Copyright -->
+      <div class="footer-bottom">
+        <p>&copy; 2025 Heart Of D' Ocean Beach Resort. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

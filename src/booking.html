@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking - Heart Of D' Ocean Beach Resort</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html">Heart Of D' Ocean Beach Resort</a>
+      <nav class="nav" id="mainNav">
+        <button class="close-menu" id="closeMenu">✕</button>
+        <a href="index.html">Home</a>
+        <a href="rooms.html">Cottages</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="booking.html" class="cta">Book Now</a>
+        <button id="darkToggle" class="icon-btn" aria-label="Toggle dark mode">🌙</button>
+      </nav>
+      <button id="menuBtn" class="hamburger" aria-label="Toggle menu">☰</button>
+    </div>
+  </header>
+
+  <main class="container booking-page">
+    <h1>Make a Reservation</h1>
+
+    <form id="bookingForm" class="booking-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="checkin">Check-in Date *</label>
+          <input type="date" id="checkin" required>
+        </div>
+        <div class="form-group">
+          <label for="checkout">Check-out Date *</label>
+          <input type="date" id="checkout" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="accommodation">Accommodation Type *</label>
+        <select id="accommodation" required>
+          <option value="">Select accommodation...</option>
+          <optgroup label="Premium Cottages">
+            <option value="white-house" data-price="30000">White House - ₱30,000/night</option>
+            <option value="penthouse" data-price="12800">Penthouse - ₱12,800/night</option>
+            <option value="aqua-class" data-price="11800">Aqua Class - ₱11,800/night</option>
+            <option value="heartsuite" data-price="11800">Heartsuite - ₱11,800/night</option>
+            <option value="stephs-skylounge" data-price="11800">Steph's Skylounge - ₱11,800/night</option>
+          </optgroup>
+          <optgroup label="Standard Cottages">
+            <option value="stephs-848" data-price="10800">Steph's 848 - ₱10,800/night</option>
+            <option value="stephs-846" data-price="10000">Steph's 846 - ₱10,000/night</option>
+            <option value="concierge-817" data-price="9800">Concierge 817 - ₱9,800/night</option>
+            <option value="de-luxe" data-price="8800">De Luxe - ₱8,800/night</option>
+            <option value="concierge-815-819" data-price="8800">Concierge 815/819 - ₱8,800/night</option>
+            <option value="premium-840" data-price="8800">Premium 840 - ₱8,800/night</option>
+            <option value="beatrice-a" data-price="7800">Beatrice A - ₱7,800/night</option>
+            <option value="premium-838" data-price="7800">Premium 838 - ₱7,800/night</option>
+            <option value="giant-kubo" data-price="6800">Giant Kubo - ₱6,800/night</option>
+            <option value="seaside-whole" data-price="6800">Seaside (Whole) - ₱6,800/night</option>
+            <option value="beatrice-b" data-price="6800">Beatrice B - ₱6,800/night</option>
+          </optgroup>
+          <optgroup label="Budget Cottages">
+            <option value="seaside-half" data-price="3400">Seaside (Half) - ₱3,400/night</option>
+            <option value="bamboo-kubo" data-price="2800">Bamboo Kubo - ₱2,800/night</option>
+          </optgroup>
+        </select>
+      </div>
+
+            <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full Name *</label>
+            <input type="text" id="name" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number *</label>
+            <input type="tel" id="phone" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="adults">Adults *</label>
+            <input type="number" id="adults" min="1" max="50" value="2" required>
+          </div>
+          <div class="form-group">
+            <label for="children">Children</label>
+            <input type="number" id="children" min="0" max="20" value="0">
+          </div>
+        </div>
+
+      <!-- NEW PAYMENT METHOD SELECTION -->
+      <div class="form-group">
+        <label for="paymentMethod">Payment Method *</label>
+        <select id="paymentMethod" name="paymentMethod" required onchange="togglePaymentOption()">
+          <option value="">Select payment method...</option>
+          <option value="pay-now">Pay Now (GCash)</option>
+          <option value="face-to-face">Pay Face to Face</option>
+        </select>
+      </div>
+
+      <!-- QR Code Section (initially hidden) -->
+      <div id="qrSection" class="qr-section" style="display: none;">
+        <h4>GCash QR Code</h4>
+        <div class="qr-code">
+          <!-- Replace with your actual GCash QR code -->
+          <img src="images&vids/qrcode.jpg" alt="GCash QR Code">
+        </div>
+        <p><strong>Amount:</strong> <span id="qrAmount">₱0</span></p>
+        <p><strong>Reference No:</strong> <span id="qrReference">RESORT000000</span></p>
+        
+        <div class="upload-section">
+          <label for="receiptUpload">Upload Payment Receipt (Screenshot) *</label>
+          <input type="file" id="receiptUpload" accept="image/*" capture="environment" required>
+          <small>Take a screenshot of your GCash payment and upload it here</small>
+        </div>
+
+        <!-- PAYMENT DETAILS FORM -->
+        <div class="payment-details-form">
+          <h5>Payment Details</h5>
+          
+          <div class="form-group">
+            <label for="gcashName">Name as it appears in GCash *</label>
+            <input type="text" id="gcashName" name="gcashName" required placeholder="Enter your name as shown in GCash">
+          </div>
+
+          <div class="form-group">
+            <label for="gcashNumber">GCash Mobile Number Used *</label>
+            <input type="tel" id="gcashNumber" name="gcashNumber" required placeholder="0917XXXXXXX">
+          </div>
+
+          <div class="form-group">
+            <label for="paymentReference">GCash Reference Number *</label>
+            <input type="text" id="paymentReference" name="paymentReference" required placeholder="Enter reference number from GCash">
+            <small>This is the transaction reference number from your GCash receipt</small>
+          </div>
+
+          <div class="form-group">
+            <label for="paymentDate">Payment Date *</label>
+            <input type="date" id="paymentDate" name="paymentDate" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Price Breakdown -->
+      <div class="price-breakdown" id="priceBreakdown">
+        <h3>Price Breakdown</h3>
+        <div class="breakdown-item">
+          <span>Accommodation:</span>
+          <span id="accommodationPrice">₱0</span>
+        </div>
+        <div class="breakdown-item">
+          <span>Number of nights:</span>
+          <span id="nightsCount">0</span>
+        </div>
+        <div class="breakdown-item total">
+          <span>Total Amount:</span>
+          <span id="totalAmount">₱0</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn primary">Book Now</button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html" class="footer-link">About Us</a></li>
+            <li><a href="contact.html" class="footer-link">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Help</h4>
+          <ul>
+            <li><a href="faq.html" class="footer-link">FAQ</a></li>
+            <li><a href="faq.html#payment" class="footer-link">Payment Options</a></li>
+            <li><a href="faq.html#cancellation" class="footer-link">Cancellation Policy</a></li>
+            <li><a href="faq.html#terms" class="footer-link">Terms & Conditions</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Reach Us</h4>
+          <div class="social-links">
+            <a href="https://www.facebook.com/messages/t/233219370026088" target="_blank">
+              <i class="fab fa-facebook-messenger"></i>
+            </a>
+            <a href="https://www.facebook.com/Heartofdoceanbeachresort/#" target="_blank">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="mailto:heartofdocean2005@yahoo.com">
+              <i class="fas fa-envelope"></i>
+            </a>
+            <a href="https://maps.app.goo.gl/q67iwWwZYtNH51rN8" target="_blank">
+              <i class="fas fa-location-dot"></i>
+            </a>
+          </div>
+          
+          <!-- Contact Info -->
+          <div class="contact-info">
+            <p>📍 Nonong Casto, Lemery, Batangas, Philippines</p>
+            <p>📞 0917 528 3832</p>
+            <p>⏰ Open 24/7</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Copyright -->
+      <div class="footer-bottom">
+        <p>&copy; 2024 Heart Of D' Ocean Beach Resort. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
