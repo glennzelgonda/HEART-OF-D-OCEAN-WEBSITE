@@ -763,35 +763,55 @@ function updateQRAmount() {
   }
 }
 
+/**
+ * Calculate stay duration and price (Updated with Headcount)
+ */
 function calculateStay() {
   try {
     const checkin = document.getElementById('checkin');
     const checkout = document.getElementById('checkout');
     const accommodationSelect = document.getElementById('accommodation');
+    const adultsInput = document.getElementById('adults');
+    const childrenInput = document.getElementById('children');
     
     if (!checkin || !checkout || !accommodationSelect) return;
     
-    if (!checkin.value || !checkout.value) {
+    const checkinValue = checkin.value;
+    const checkoutValue = checkout.value;
+    
+    if (!checkinValue || !checkoutValue) {
       hidePriceBreakdown();
       return;
     }
     
-    const checkinDate = new Date(checkin.value);
-    const checkoutDate = new Date(checkout.value);
+    const checkinDate = new Date(checkinValue);
+    const checkoutDate = new Date(checkoutValue);
     
     if (checkoutDate <= checkinDate) {
       hidePriceBreakdown();
       return;
     }
     
+    // Calculate nights
     const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
     const nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
     
+    // Get values
     const selectedOption = accommodationSelect.options[accommodationSelect.selectedIndex];
     const pricePerNight = selectedOption ? parseInt(selectedOption.getAttribute('data-price')) || 0 : 0;
-    
-    if (nights > 0 && pricePerNight > 0) {
-      updatePriceBreakdown(pricePerNight, nights, pricePerNight * nights);
+    const adults = adultsInput ? (parseInt(adultsInput.value) || 0) : 0;
+    const children = childrenInput ? (parseInt(childrenInput.value) || 0) : 0;
+
+    const ADULT_RATE = 150; 
+    const CHILD_RATE = 100;
+
+ if (nights > 0 && pricePerNight > 0) {
+      // ONE-TIME GUEST FEE FORMULA (matches PHP)
+      const cottageTotal = pricePerNight * nights;
+      const guestTotal = (adults * ADULT_RATE) + (children * CHILD_RATE);
+      const grandTotal = cottageTotal + guestTotal;
+
+      updatePriceBreakdown(pricePerNight, nights, cottageTotal, adults, children, guestTotal, grandTotal);
     } else {
       hidePriceBreakdown();
     }
@@ -801,19 +821,36 @@ function calculateStay() {
   }
 }
 
-function updatePriceBreakdown(pricePerNight, nights, totalPrice) {
+function updatePriceBreakdown(pricePerNight, nights, cottageTotal, adults, children, guestTotal, grandTotal) {
   try {
-    const accommodationPrice = document.getElementById('accommodationPrice');
-    const nightsCount = document.getElementById('nightsCount');
-    const totalAmount = document.getElementById('totalAmount');
     const priceBreakdown = document.getElementById('priceBreakdown');
     
-    if (accommodationPrice) accommodationPrice.textContent = `₱${pricePerNight.toLocaleString()}`;
-    if (nightsCount) nightsCount.textContent = nights;
-    if (totalAmount) totalAmount.textContent = `₱${totalPrice.toLocaleString()}`;
-    if (priceBreakdown) priceBreakdown.style.display = 'block';
+    if (priceBreakdown) {
+      priceBreakdown.style.display = 'block';
+      priceBreakdown.innerHTML = `
+        <h3>Price Breakdown</h3>
+        <div class="breakdown-row">
+          <span>Cottage (₱${pricePerNight.toLocaleString()} × ${nights} night${nights > 1 ? 's' : ''})</span>
+          <span>₱${cottageTotal.toLocaleString()}</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Guest Fees (${adults} Adult × ₱150, ${children} Child × ₱100)</span>
+          <span>₱${guestTotal.toLocaleString()}</span>
+        </div>
+        <div class="breakdown-total">
+          <span><strong>Total Amount</strong></span>
+          <span id="totalAmount"><strong>₱${grandTotal.toLocaleString()}</strong></span>
+        </div>
+        <div class="breakdown-note" style="font-size: 0.85em; color: #666; margin-top: 10px;">
+          <i class="fas fa-info-circle"></i> Guest fees are one-time entrance fees.
+        </div>
+      `;
+    }
     
-    if (document.getElementById('paymentMethod')?.value === 'pay-now') updateQRAmount();
+    // Update QR amount if showing
+    if (document.getElementById('paymentMethod')?.value === 'pay-now') {
+      updateQRAmount();
+    }
   } catch (error) {
     console.error('Error updating price breakdown:', error);
   }
@@ -821,9 +858,10 @@ function updatePriceBreakdown(pricePerNight, nights, totalPrice) {
 
 function hidePriceBreakdown() {
   const priceBreakdown = document.getElementById('priceBreakdown');
-  if (priceBreakdown) priceBreakdown.style.display = 'none';
+  if (priceBreakdown) {
+    priceBreakdown.style.display = 'none';
+  }
 }
-
 // ========== 6. AVAILABILITY CHECK ==========
 
 function checkCottageAvailability() {
@@ -1017,6 +1055,8 @@ function addBookingEventListeners() {
   const checkoutInput = document.getElementById('checkout');
   const accommodationSelect = document.getElementById('accommodation');
   const paymentMethodSelect = document.getElementById('paymentMethod');
+  const adultsInput = document.getElementById('adults');     
+  const childrenInput = document.getElementById('children'); 
   
   function debounce(func, wait) {
     let timeout;
@@ -1053,6 +1093,16 @@ function addBookingEventListeners() {
   
   if (paymentMethodSelect) {
     paymentMethodSelect.addEventListener('change', togglePaymentOption);
+  }
+
+  if (adultsInput) {
+    adultsInput.addEventListener('change', calculateStay);
+    adultsInput.addEventListener('input', calculateStay);
+  }
+
+  if (childrenInput) {
+    childrenInput.addEventListener('change', calculateStay);
+    childrenInput.addEventListener('input', calculateStay);
   }
 }
 

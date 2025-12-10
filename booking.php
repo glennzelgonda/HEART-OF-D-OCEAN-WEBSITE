@@ -35,7 +35,9 @@ function checkCottageAvailability($db, $cottage, $checkin_date, $checkout_date) 
 }
 
 // Function to calculate total price
-function calculateTotalPrice($cottage, $nights) {
+// Function to calculate total price 
+function calculateTotalPrice($cottage, $nights, $adults, $children) {
+    // 1. Cottage Rates per Night
     $prices = [
         "white-house" => 30000,
         "penthouse" => 12800,
@@ -57,9 +59,29 @@ function calculateTotalPrice($cottage, $nights) {
         "bamboo-kubo" => 2800
     ];
     
-    $pricePerNight = $prices[$cottage] ?? 0;
-    return $pricePerNight * $nights;
+    $adultRate = 150; // ₱150 per adult (ONE-TIME)
+    $childRate = 100; // ₱100 per child (ONE-TIME)
+    
+    // 3. Validate cottage exists
+    if (!isset($prices[$cottage])) {
+        error_log("Invalid cottage: $cottage");
+        return 0;
+    }
+    
+    // 4. Ensure minimum values
+    $nights = max(1, $nights);
+    $adults = max(0, $adults);
+    $children = max(0, $children);
+    
+    // 5. Calculate - ONE-TIME GUEST FEE FORMULA
+    $cottageTotal = $prices[$cottage] * $nights;
+    $guestTotal = ($adults * $adultRate) + ($children * $childRate);
+    
+    $total = $cottageTotal + $guestTotal;
+    
+    return $total;
 }
+
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -139,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     try {
                         // Calculate total price
-                        $total_price = calculateTotalPrice($accommodation, $nights);
+                        $total_price = calculateTotalPrice($accommodation, $nights, $adults, $children);
                         
                         // Insert into database
                         $query = "INSERT INTO bookings (booking_id, name, email, phone, room, date, checkout_date, guests, children, nights, total_price, payment_method, gcash_name, gcash_number, payment_reference, payment_date, receipt_filename, status) 
